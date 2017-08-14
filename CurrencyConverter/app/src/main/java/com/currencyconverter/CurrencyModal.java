@@ -32,7 +32,7 @@ public class CurrencyModal {
         this.CurrencyTo = CurrencyTo;
         this.CurrencyFromamount = CurrencyFromamount;
         this.CurrencyToamount = CurrencyToamount;
-        DateFormat df = new SimpleDateFormat("d MMM yyyy, HH:mm");
+        DateFormat df = new SimpleDateFormat("HH:mm dd-MM-yyyy");
         this.Time =  df.format(Calendar.getInstance().getTime());
     }
 

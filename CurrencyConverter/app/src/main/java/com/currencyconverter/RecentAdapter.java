@@ -51,11 +51,11 @@ public class RecentAdapter extends BaseAdapter {
         TextView Txt_Last_To = (TextView) convertView.findViewById(R.id.Txt_Last_To);
         Txt_Last_To.setText("To : "+ launchmodel.get(position).getCurrencyTo());
         TextView Txt_Last_Converted = (TextView) convertView.findViewById(R.id.Txt_Last_Converted);
-        Txt_Last_Converted.setText("Transfered Currency : "+ launchmodel.get(position).getCurrencyToamount());
+        Txt_Last_Converted.setText("Transfered Currency : "+ launchmodel.get(position).getCurrencyToamount() +" "+ launchmodel.get(position).getCurrencyTo());
         TextView Txt_Last_Debited = (TextView) convertView.findViewById(R.id.Txt_Last_Debited);
-        Txt_Last_Debited.setText("Debited Currency : "+ launchmodel.get(position).getCurrencyFromamount());
+        Txt_Last_Debited.setText("Debited Currency : "+ launchmodel.get(position).getCurrencyFromamount() +" "+ launchmodel.get(position).getCurrencyFrom());
         TextView Txt_Last_Commission = (TextView) convertView.findViewById(R.id.Txt_Last_Commission);
-        Txt_Last_Commission.setText("Commission fee : "+ launchmodel.get(position).getCurrencyfee());
+        Txt_Last_Commission.setText("Commission fee : "+ launchmodel.get(position).getCurrencyfee() +" "+ launchmodel.get(position).getCurrencyFrom());
         TextView Txt_Last_time = (TextView) convertView.findViewById(R.id.Txt_Last_time);
         Txt_Last_time.setText("Transfered on : " + launchmodel.get(position).getTime());
         System.out.println("--LIst Size In Inflater--" + launchmodel.size());

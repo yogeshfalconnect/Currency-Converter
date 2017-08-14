@@ -32,8 +32,11 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
         objGridView = (GridView) findViewById(R.id.Gridview);
-        if(objlistCurrency.size() == 0)
+        if(objlistCurrency.size() == 0) {
             LoadDefaultvalue();
+            AppSharedPreferences objAppSharedPreferences = new AppSharedPreferences(this);
+            objAppSharedPreferences.PutInt("Convertioncount",0);
+        }
         objGridView.setAdapter(new CurrencyAdapter(Homepage.this,objlistCurrency));
         Button But_Convert = (Button) findViewById(R.id.But_Convert);
         But_Convert.setOnClickListener(this);
@@ -126,24 +129,32 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener 
      */
     @Override
     public void onBackPressed() {
-        moveTaskToBack(true);
+        if (Layout_Addcurrency.getVisibility() == View.VISIBLE)
+            Layout_Addcurrency.setVisibility(View.GONE);
+        else if (Layout_Addmoney.getVisibility() == View.VISIBLE)
+            Layout_Addmoney.setVisibility(View.GONE);
+        else
+            moveTaskToBack(true);
     }
 
     /**
      * Called when click Submit and adding money to the wallet
      */
-    private void PressSubmitMoney()
-    {
-        boolean valid = Appvalidation.Number(Edit_Amount, "Enter a valid amount");
-        if(valid) {
-            for (CurrencyvalueModal objvalue : Homepage.objlistCurrency) {
-                if (Txt_Amountname.getText().equals(objvalue.getCurrencyname())) {
-                    Double Presentvalue = Double.valueOf(objvalue.getCurrencyamount().toString());
-                    objvalue.setCurrencyamount(df.format(Presentvalue + Double.valueOf(Edit_Amount.getText().toString())));
-                    break;
+    private void PressSubmitMoney() {
+        if (Txt_Amountname.getText().toString() == null || Txt_Amountname.getText().toString().isEmpty()) {
+            CommonFunctions.Error_Dialog(Homepage.this,"Please select the Currency to proceed.");
+        } else {
+            boolean valid = Appvalidation.Number(Edit_Amount, "Enter a valid amount");
+            if (valid) {
+                for (CurrencyvalueModal objvalue : Homepage.objlistCurrency) {
+                    if (Txt_Amountname.getText().equals(objvalue.getCurrencyname())) {
+                        Double Presentvalue = Double.valueOf(objvalue.getCurrencyamount().toString());
+                        objvalue.setCurrencyamount(df.format(Presentvalue + Double.valueOf(Edit_Amount.getText().toString())));
+                        break;
+                    }
                 }
+                Layout_Addmoney.setVisibility(View.GONE);
             }
-            Layout_Addmoney.setVisibility(View.GONE);
         }
     }
     /**
@@ -179,10 +190,15 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener 
      */
     private void PressSubmitCurrency()
     {
-        String id = String.valueOf(objlistCurrency.size()+1);
-        objlistCurrency.add(new CurrencyvalueModal(id,Txt_selectcurrency.getText().toString(),"00.00"));
-        objGridView.setAdapter(new CurrencyAdapter(Homepage.this,objlistCurrency));
-        Layout_Addcurrency.setVisibility(View.GONE);
+        if(Txt_selectcurrency.getText().toString() == null || Txt_selectcurrency.getText().toString().isEmpty())
+        {
+            CommonFunctions.Error_Dialog(Homepage.this,"Please select the Currency to proceed.");
+        } else {
+            String id = String.valueOf(objlistCurrency.size() + 1);
+            objlistCurrency.add(new CurrencyvalueModal(id, Txt_selectcurrency.getText().toString(), "00.00"));
+            objGridView.setAdapter(new CurrencyAdapter(Homepage.this, objlistCurrency));
+            Layout_Addcurrency.setVisibility(View.GONE);
+        }
     }
     /**
      * Loading default currency values

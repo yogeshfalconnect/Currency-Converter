@@ -5,9 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorPrimary"><LinearLayout
+    android:background="@color/colorPrimary">
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+        android:visibility="gone"
     android:orientation="horizontal">
     <TextView
         android:id="@+id/Txt_Last_From"
@@ -36,7 +38,7 @@
         android:layout_height="40dp"
         android:textColor="@color/colorAccent"
         android:text="Debited  Currency :"
-        android:paddingLeft="28dp"
+        android:paddingLeft="15dp"
         android:textSize="18sp"
         android:gravity="left|center"/>
     <TextView
@@ -45,7 +47,7 @@
         android:layout_height="40dp"
         android:textColor="@color/colorAccent"
         android:text="Credited  Currency :"
-        android:paddingLeft="28dp"
+        android:paddingLeft="15dp"
         android:textSize="18sp"
         android:gravity="left|center"/>
     <TextView
@@ -54,7 +56,7 @@
         android:layout_height="40dp"
         android:textColor="@color/colorAccent"
         android:text="Commission fee :"
-        android:paddingLeft="28dp"
+        android:paddingLeft="15dp"
         android:textSize="18sp"
         android:gravity="left|center"/>
     <TextView

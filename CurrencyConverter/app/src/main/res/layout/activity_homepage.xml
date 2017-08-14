@@ -113,24 +113,31 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
             android:visibility="gone"
-        android:background="#90000000">
+        android:background="@color/colorPrimary">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@color/colorAccent"
-            android:textColor="@color/colorPrimary"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/colorAccent"
             android:text="Select Currency &amp; Add new Currency"
             android:textSize="20sp"
             android:gravity="center"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/colorAccent"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <TextView
                 android:id="@+id/Txt_selectcurrency"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:gravity="center"
-                android:text="EUR"
+                android:hint="Select"
+                android:textColorHint="@color/colorAccent"
                 android:layout_centerInParent="true"
                 android:textColor="@color/colorAccent"
                 android:background="@drawable/borderbg"
@@ -178,15 +185,21 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:visibility="gone"
-            android:background="#90000000">
+            android:background="@color/colorPrimary">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="@color/colorAccent"
-                android:textColor="@color/colorPrimary"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/colorAccent"
                 android:text="Select Currency &amp; Add money"
                 android:textSize="20sp"
                 android:gravity="center"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/colorAccent"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -207,10 +220,11 @@
                     android:textSize="20sp" />
                 <TextView
                     android:id="@+id/Txt_Amountname"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:gravity="center"
-                    android:text="EUR"
+                    android:hint="Select"
+                    android:textColorHint="@color/colorAccent"
                     android:layout_above="@+id/Edit_Amount"
                     android:layout_marginBottom="20dp"
                     android:layout_centerInParent="true"

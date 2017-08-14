@@ -42,6 +42,7 @@ public class Convertor_activity extends AppCompatActivity implements View.OnClic
     TextView Txt_Last_Commission, Txt_Last_debited, Txt_Last_Converted, Txt_Last_From, Txt_Last_To;
     String Processing_Amount,Processing_From,Processing_To;
     int Convertioncount;
+    private AppSharedPreferences objAppSharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +51,7 @@ public class Convertor_activity extends AppCompatActivity implements View.OnClic
          * Declaration of view and actions
          */
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        objAppSharedPreferences = new AppSharedPreferences(this);
         Txt_Amountname = (TextView) findViewById(R.id.Amountname);
         Txt_Amountname2 = (TextView) findViewById(R.id.Amountname2);
         Txt_AmountEUR = (TextView) findViewById(R.id.AmountEUR);
@@ -73,7 +75,15 @@ public class Convertor_activity extends AppCompatActivity implements View.OnClic
         Button But_Convert = (Button) findViewById(R.id.But_Convert);
         But_Convert.setOnClickListener(this);
         But_Convert.setTag("Convert");
+        Convertioncount = objAppSharedPreferences.GetInt("Convertioncount");
         objAppProgress = new AppProgress(this);
+        for (CurrencyvalueModal objvalue : Homepage.objlistCurrency) {
+            if (Txt_Amountname.getText().equals(objvalue.getCurrencyname())) {
+                Txt_AmountEUR.setText(objvalue.getCurrencyamount().toString());
+            } else if (Txt_Amountname2.getText().equals(objvalue.getCurrencyname())) {
+                Txt_AmountUSD.setText(objvalue.getCurrencyamount().toString());
+            }
+        }
         Loadlast();
     }
     /**
@@ -230,6 +240,7 @@ public class Convertor_activity extends AppCompatActivity implements View.OnClic
                 try {
                     Log.e("response", "  "+ response);
                     Convertioncount++;
+                    objAppSharedPreferences.PutInt("Convertioncount",Convertioncount);
                     JSONObject jsonResponse = new JSONObject(response);
                     String Amountstr = jsonResponse.get("amount").toString();
                     String Currencystr = jsonResponse.get("currency").toString();
@@ -252,8 +263,8 @@ public class Convertor_activity extends AppCompatActivity implements View.OnClic
     private void Populate_Currency(String Amount) {
         Txt_Last_From.setText("From : " + Processing_From);
         Txt_Last_To.setText("To : " + Processing_To);
-        Txt_Last_Converted.setText("Transfered  Currency : " + Amount);
-        Txt_Last_debited.setText("Debited  Currency : " + Processing_Amount.toString());
+        Txt_Last_Converted.setText("Transfered  Currency : " + Amount  +" "+ Processing_To);
+        Txt_Last_debited.setText("Debited  Currency : " + Processing_Amount.toString() +" "+ Processing_From);
         for (CurrencyvalueModal objvalue : Homepage.objlistCurrency) {
             if (Processing_From.equals(objvalue.getCurrencyname())) {
                 Double Presentvalue = Double.valueOf(objvalue.getCurrencyamount().toString());
@@ -261,13 +272,13 @@ public class Convertor_activity extends AppCompatActivity implements View.OnClic
                 objvalue.setCurrencyamount(df.format(Presentvalue - Double.valueOf(Processing_Amount.toString())));
                 if (Convertioncount > CurrenyCommissioncount) {
                     Commfee = df.format((Double.valueOf(Processing_Amount.toString()) * CommonFunctions.CurrenyCommission) / 100);
-                    Txt_Last_Commission.setText("Commission fee : " + Commfee);
+                    Txt_Last_Commission.setText("Commission fee : " + Commfee  +" "+ Processing_From);
                     Double Presentvaluefee = Double.valueOf(objvalue.getCurrencyamount().toString());
                     Txt_AmountEUR.setText(df.format(Presentvaluefee - ((Double.valueOf(Processing_Amount.toString())) * CommonFunctions.CurrenyCommission) / 100));
                     objvalue.setCurrencyamount(df.format(Presentvaluefee - ((Double.valueOf(Processing_Amount.toString())) * CommonFunctions.CurrenyCommission) / 100));
                 } else {
                     Commfee = "00.00";
-                    Txt_Last_Commission.setText("Commission fee : " + "00.00");
+                    Txt_Last_Commission.setText("Commission fee : " + "00.00"  +" "+ Processing_From);
                 }
                 break;
             }
@@ -292,9 +303,9 @@ public class Convertor_activity extends AppCompatActivity implements View.OnClic
         if(Recent_Conversionlist.size() > 0) {
             Txt_Last_From.setText("From : " + Recent_Conversionlist.get(Recent_Conversionlist.size() - 1).getCurrencyFrom());
             Txt_Last_To.setText("To : " + Recent_Conversionlist.get(Recent_Conversionlist.size() - 1).getCurrencyTo());
-            Txt_Last_Converted.setText("Transfered  Currency : " + Recent_Conversionlist.get(Recent_Conversionlist.size() - 1).getCurrencyToamount());
-            Txt_Last_debited.setText("Debited  Currency : " + Recent_Conversionlist.get(Recent_Conversionlist.size() - 1).getCurrencyFromamount());
-            Txt_Last_Commission.setText("Commission fee : " + Recent_Conversionlist.get(Recent_Conversionlist.size() - 1).getCurrencyfee());
+            Txt_Last_Converted.setText("Transfered  Currency : " + Recent_Conversionlist.get(Recent_Conversionlist.size() - 1).getCurrencyToamount()+" " + Recent_Conversionlist.get(Recent_Conversionlist.size() - 1).getCurrencyTo());
+            Txt_Last_debited.setText("Debited  Currency : " + Recent_Conversionlist.get(Recent_Conversionlist.size() - 1).getCurrencyFromamount()+" " + Recent_Conversionlist.get(Recent_Conversionlist.size() - 1).getCurrencyFrom());
+            Txt_Last_Commission.setText("Commission fee : " + Recent_Conversionlist.get(Recent_Conversionlist.size() - 1).getCurrencyfee() +" " + Recent_Conversionlist.get(Recent_Conversionlist.size() - 1).getCurrencyFrom());
         }
     }
 
